@@ -57,21 +57,23 @@ function draw(){
                 y: Math.floor(Math.random()*pipeNorth.height) - pipeNorth.height,
             })
         }
+        /*HERE SOLUTION*/
+        if( bX + bird.width >= pipes[i].x && bX <= pipes[i].x + pipeNorth.width && (birdY <= pipes[i].y + pipeNorth.height || birdY+bird.height >= pipes[i].y+constant) || birdY + bird.height >=  canvas.height - fg.height){
+            alert('GAME OVER');
+            clearInterval(intervalID);
+            location.reload(); 
+        }
     }
-    /*
-    if () {
-        //end the game if the bird's cordinates touches any of the pipes co-ordinates 
-        //HINT- THE PIPE has a width and height and a x and y coordinate
-        // The bird has a width and height and a x and y coordinate
-
-    }
-    */
+    
+    
+   
     
     ctx.drawImage(fg,0, canvas.height-80);
     
     if (birdY > canvas.height-100) {
         alert('GAME OVER');
         clearInterval(intervalID);
+        location.reload();
     }
     else {
         birdY += bY;
@@ -84,4 +86,4 @@ function draw(){
 
 intervalID = setInterval(() => {
     requestAnimationFrame(draw);
-}, 20)
+}, 10)
