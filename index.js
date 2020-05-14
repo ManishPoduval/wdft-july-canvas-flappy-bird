@@ -57,11 +57,17 @@ function draw(){
                 y: Math.floor(Math.random()*pipeNorth.height) - pipeNorth.height,
             })
         }
-
-        ctx.drawImage(fg,0, canvas.height-80);
     }
+    /*
+    if () {
+        //end the game if the bird's cordinates touches any of the pipes co-ordinates 
+        //HINT- THE PIPE has a width and height and a x and y coordinate
+        // The bird has a width and height and a x and y coordinate
+
+    }
+    */
     
-    
+    ctx.drawImage(fg,0, canvas.height-80);
     
     if (birdY > canvas.height-100) {
         alert('GAME OVER');
