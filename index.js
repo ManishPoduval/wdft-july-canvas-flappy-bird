@@ -3,16 +3,13 @@ let ctx = canvas.getContext('2d');
 canvas.style.border = '2px solid black';
 
 let bg = new Image();
-console.log(bg)
 bg.src = 'bg.png';
 
 let fg = new Image();
-fg.src = 'fg.png'
+fg.src = 'fg.png';
 
 let bird = new Image();
 bird.src = 'bird.png'
-let birdY = 60; // y COORDINATE OF THE BIRD
-let interval = 0
 
 let pipeNorth = new Image();
 pipeNorth.src = 'pipeNorth.png'
@@ -20,82 +17,65 @@ pipeNorth.src = 'pipeNorth.png'
 let pipeSouth = new Image();
 pipeSouth.src = 'pipeSouth.png'
 
+let birdY = 50;
+let bY = 2;
+let score = 0;
+let bX = 20;
+let intervalID = 0;
 
-document.addEventListener('mousedown', () => {
-    //do something
-    console.log('clicking');
-    birdY -= 30;
+
+
+document.addEventListener('mousedown', function(){
+    bY = -7;
+})
+
+document.addEventListener('mouseup', function(){
+    bY = 2;
 })
 
 
-let pipe = [{
-    x: canvas.width-30,
-    y: 0
-}]
-
+let pipes = [{x: canvas.width-40, y: 0}]
 
 function draw(){
-        ctx.drawImage(bg, 0, 0);
-        ctx.drawImage(bird, 20, birdY);
+    ctx.drawImage(bg,0, 0)
+    
+    ctx.drawImage(bird, bX, birdY);
 
-        for(let i=0; i<pipe.length; i++) {
-            let constant = pipeNorth.height + 70;
-            ctx.drawImage(pipeNorth, pipe[i].x, pipe[i].y);
-            ctx.drawImage(pipeSouth, pipe[i].x, pipe[i].y + constant);
-            pipe[i].x -= 1;
 
-            if ( pipe[i].x == 30) {
-                pipe.push({
-                    x: canvas.width-30,
-                    y: Math.floor(Math.random() * pipeNorth.height) - pipeNorth.height
-                })
-            }
+    for(let i=0; i<pipes.length; i++){
 
+        let constant = pipeNorth.height + 100
+        ctx.drawImage(pipeNorth, pipes[i].x, pipes[i].y);
+        ctx.drawImage(pipeSouth, pipes[i].x, pipes[i].y+constant);
+        pipes[i].x--;
+        if(pipes[i].x == 5){
+            score++;
+        }
+        if ( pipes[i].x === 30) {
+            pipes.push({
+                x: canvas.width-20,
+                y: Math.floor(Math.random()*pipeNorth.height) - pipeNorth.height,
+            })
         }
 
-
-        if ( birdY + (bird.height/2) >= canvas.height - fg.height) {
-            //end the game
-            clearInterval(interval)
-            alert('GAME OVER BRO!!')
-            
-        }
-        else {
-            birdY += 2;
-        }
-
-        ctx.drawImage(fg, 0,  canvas.height - fg.height);
+        ctx.drawImage(fg,0, canvas.height-80);
+    }
+    
+    
+    
+    if (birdY > canvas.height-100) {
+        alert('GAME OVER');
+        clearInterval(intervalID);
+    }
+    else {
+        birdY += bY;
+    }
+    ctx.font = '20px Verdana';
+    ctx.fillText('Score: '+ score, 20, canvas.height-30)
+    
+    
 }
 
-interval = setInterval(() => {
-    draw();
+intervalID = setInterval(() => {
+    requestAnimationFrame(draw);
 }, 20)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
