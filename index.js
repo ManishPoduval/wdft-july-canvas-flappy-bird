@@ -52,6 +52,11 @@ function draw(){
                 y: -Math.floor(Math.random()*pipeNorth.height)
             })
         }
+
+        if (/* When the bird hits the pipe*/){
+            clearInterval(intervalId)
+            alert('GAME OVER!')
+        }
     }
 
 
