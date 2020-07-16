@@ -53,10 +53,10 @@ function draw(){
             })
         }
 
-        if (/* When the bird hits the pipe*/){
-            clearInterval(intervalId)
-            alert('GAME OVER!')
-        }
+//         if (/* When the bird hits the pipe*/){
+//             clearInterval(intervalId)
+//             alert('GAME OVER!')
+//         }
     }
 
 
