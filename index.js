@@ -1,18 +1,15 @@
-let canvas = document.getElementById('myCanvas')
-canvas.style.border = '3px solid black'
+let canvas = document.getElementById('myCanvas');
+let ctx = canvas.getContext('2d');
+canvas.style.border = '2px solid black';
 
-let ctx = canvas.getContext('2d')
-
-let intervalId = 0;
-
-let bgImg = new Image();
-bgImg.src = 'bg.png'
-
-let birdImg = new Image();
-birdImg.src = 'bird.png'
+let bg = new Image();
+bg.src = 'bg.png';
 
 let fg = new Image();
-fg.src = 'fg.png'
+fg.src = 'fg.png';
+
+let bird = new Image();
+bird.src = 'bird.png'
 
 let pipeNorth = new Image();
 pipeNorth.src = 'pipeNorth.png'
@@ -20,61 +17,73 @@ pipeNorth.src = 'pipeNorth.png'
 let pipeSouth = new Image();
 pipeSouth.src = 'pipeSouth.png'
 
-let birdY = 20;
-let incrementY = 5
-let pipeX = 300
-let score = 0
+let birdY = 50;
+let bY = 2;
+let score = 0;
+let bX = 20;
+let intervalID = 0;
 
-canvas.addEventListener('mousedown', () => {
-    incrementY = -10
+
+
+document.addEventListener('mousedown', function(){
+    bY = -7;
 })
 
-canvas.addEventListener('mouseup', () => {
-    incrementY =  5
+document.addEventListener('mouseup', function(){
+    bY = 2;
 })
 
-let pipes= [{x: 250, y: 0}]
+
+let pipes = [{x: canvas.width-40, y: 0}]
 
 function draw(){
-    ctx.drawImage(bgImg, 0, 0)
-    ctx.drawImage(birdImg, 20, birdY)
+    ctx.drawImage(bg,0, 0)
+    
+    ctx.drawImage(bird, bX, birdY);
 
-    for (let i=0; i < pipes.length; i++){
-        ctx.drawImage(pipeNorth, pipes[i].x, pipes[i].y)
-        ctx.drawImage(pipeSouth, pipes[i].x, pipes[i].y+ pipeNorth.height+ 150)
-        pipes[i].x--
-        if (pipes[i].x == 10){
-            score++
+
+    for(let i=0; i<pipes.length; i++){
+
+        let constant = pipeNorth.height + 100
+        ctx.drawImage(pipeNorth, pipes[i].x, pipes[i].y);
+        ctx.drawImage(pipeSouth, pipes[i].x, pipes[i].y+constant);
+        pipes[i].x--;
+        if(pipes[i].x == 5){
+            score++;
         }
-        if (pipes[i].x == 40){
+        if ( pipes[i].x === 30) {
             pipes.push({
-                x: 250,
-                y: -Math.floor(Math.random()*pipeNorth.height)
+                x: canvas.width-20,
+                y: Math.floor(Math.random()*pipeNorth.height) - pipeNorth.height,
             })
         }
-
-//         if (/* When the bird hits the pipe*/){
-//             clearInterval(intervalId)
-//             alert('GAME OVER!')
-//         }
+        /*HERE SOLUTION*/
+        if( bX + bird.width >= pipes[i].x && bX <= pipes[i].x + pipeNorth.width && (birdY <= pipes[i].y + pipeNorth.height || birdY+bird.height >= pipes[i].y+constant) || birdY + bird.height >=  canvas.height - fg.height){
+            alert('GAME OVER');
+            clearInterval(intervalID);
+            location.reload(); 
+        }
     }
-
-
-    ctx.drawImage(fg, 0, canvas.height - 70)
-    birdY += incrementY
-    if (birdY == canvas.height - 70 ){
-        clearInterval(intervalId)
-        alert('GAME OVER!')
+    
+    
+   
+    
+    ctx.drawImage(fg,0, canvas.height-80);
+    
+    if (birdY > canvas.height-100) {
+        alert('GAME OVER');
+        clearInterval(intervalID);
+        location.reload();
     }
-
-    ctx.font = '20px Verdana'
-    ctx.fillText('Score: '+score,30,30)
-
+    else {
+        birdY += bY;
+    }
+    ctx.font = '20px Verdana';
+    ctx.fillText('Score: '+ score, 20, canvas.height-30)
+    
+    
 }
 
-intervalId = setInterval(() => {
-    requestAnimationFrame(draw)
-}, 20)
-
-
-
+intervalID = setInterval(() => {
+    requestAnimationFrame(draw);
+}, 10)
