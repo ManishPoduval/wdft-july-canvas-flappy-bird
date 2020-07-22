@@ -59,8 +59,8 @@ function draw(){
         }
         /*HERE SOLUTION*/
         if( bX + bird.width >= pipes[i].x && bX <= pipes[i].x + pipeNorth.width && (birdY <= pipes[i].y + pipeNorth.height || birdY+bird.height >= pipes[i].y+constant) || birdY + bird.height >=  canvas.height - fg.height){
-            alert('GAME OVER');
             clearInterval(intervalID);
+            alert('GAME OVER: ' + score);
             location.reload(); 
         }
     }
