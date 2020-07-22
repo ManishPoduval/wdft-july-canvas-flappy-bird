@@ -44,7 +44,7 @@ function draw(){
 
     for(let i=0; i<pipes.length; i++){
 
-        let constant = pipeNorth.height + 100
+        let constant = pipeNorth.height + 200
         ctx.drawImage(pipeNorth, pipes[i].x, pipes[i].y);
         ctx.drawImage(pipeSouth, pipes[i].x, pipes[i].y+constant);
         pipes[i].x--;
